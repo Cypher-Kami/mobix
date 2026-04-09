@@ -1,3 +1,44 @@
+import { useEffect, useState } from 'react'
+import { useProducts } from '@/features/products/hooks/useProducts'
+import { filterProducts } from '@/features/products/api/productApi'
+import { Header } from '@/shared/components/Header'
+import { SearchInput } from '@/features/products/components/SearchInput'
+import { ProductGrid } from '@/features/products/components/ProductGrid'
+
 export default function PLPPage() {
-  return <div>PLP</div>
+  const { data, isLoading, isFetching, isError, refetch } = useProducts()
+  const [searchQuery, setSearchQuery] = useState('')
+  const [debouncedQuery, setDebouncedQuery] = useState('')
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [searchQuery])
+
+  const filteredProducts = filterProducts(data ?? [], debouncedQuery)
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header breadcrumbItems={[{ label: 'Inicio' }]} />
+      <main className="mx-auto max-w-7xl px-4 py-6">
+        <div className="mb-6 flex items-center justify-between">
+          <span className="text-sm font-medium uppercase tracking-wide text-gray-400">
+            {isFetching && !isLoading ? 'Actualizando...' : `${filteredProducts.length} productos`}
+          </span>
+          <div className="w-72">
+            <SearchInput value={searchQuery} onChange={setSearchQuery} />
+          </div>
+        </div>
+        <ProductGrid
+          products={filteredProducts}
+          isLoading={isLoading}
+          isError={isError}
+          searchQuery={debouncedQuery}
+          onRetry={() => void refetch()}
+        />
+      </main>
+    </div>
+  )
 }
