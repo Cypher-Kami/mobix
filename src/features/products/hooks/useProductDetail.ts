@@ -8,5 +8,6 @@ export function useProductDetail(id: string) {
     queryFn: () => fetchProductDetail(id),
     staleTime: ONE_HOUR_MS,
     enabled: !!id,
+    retry: 1,
   })
 }

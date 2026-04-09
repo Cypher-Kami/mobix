@@ -6,7 +6,7 @@ import { SearchInput } from '@/features/products/components/SearchInput'
 import { ProductGrid } from '@/features/products/components/ProductGrid'
 
 export default function PLPPage() {
-  const { data, isLoading, isFetching, isError, refetch } = useProducts()
+  const { data, isLoading, isError, refetch } = useProducts()
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState('')
 
@@ -25,7 +25,7 @@ export default function PLPPage() {
       <main className="mx-auto max-w-7xl px-4 py-6">
         <div className="mb-6 flex items-center justify-between">
           <span className="text-sm font-medium uppercase tracking-wide text-gray-400">
-            {isFetching && !isLoading ? 'Actualizando...' : `${filteredProducts.length} productos`}
+            {filteredProducts.length} productos
           </span>
           <div className="w-72">
             <SearchInput value={searchQuery} onChange={setSearchQuery} />

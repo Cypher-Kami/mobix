@@ -1,29 +1,39 @@
-// DTOs - forma exacta de la API
+type Flexible = string[] | string | null
+
 export interface ProductDTO {
   id: string
-  brand: string | null
-  model: string | null
-  price: string | null
-  imgUrl: string | null
+  brand: Flexible
+  model: Flexible
+  price: Flexible
+  imgUrl: Flexible
 }
 
 export interface ProductDetailDTO {
   id: string
-  brand: string | null
-  model: string | null
-  price: string | null
-  imgUrl: string | null
-  cpu: string | null
-  ram: string | null
-  os: string | null
-  displayResolution: string | null
-  battery: string | null
-  primaryCamera: string[] | null
-  secondaryCmera: string[] | null   // typo intencional de la API
-  dimentions: string | null          // typo intencional de la API
-  weight: string | null
-  internalMemory: Array<{ code: number; value: string }> | null
-  colors: Array<{ code: number; value: string }> | null
+  brand: Flexible
+  model: Flexible
+  price: Flexible
+  imgUrl: Flexible
+  cpu: Flexible
+  ram: Flexible
+  os: Flexible
+  displayResolution: Flexible
+  displaySize: Flexible
+  battery: Flexible
+  primaryCamera: Flexible
+  secondaryCmera: Flexible
+  dimentions: Flexible
+  weight: Flexible
+  internalMemory: Flexible
+  colors: Flexible
+  sim: Flexible
+  wlan: Flexible
+  bluetooth: Flexible
+  sensors: Flexible
+  options: {
+    colors: Array<{ code: number; name: string }> | null
+    storages: Array<{ code: number; name: string }> | null
+  } | null
 }
 
 export interface CartRequestDTO {
@@ -36,7 +46,6 @@ export interface CartResponseDTO {
   count: number
 }
 
-// UI Models — usados en componentes
 export interface ProductItem {
   id: string
   brand: string

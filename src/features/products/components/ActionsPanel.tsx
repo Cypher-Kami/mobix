@@ -12,12 +12,12 @@ interface ActionsPanelProps {
 }
 
 export function ActionsPanel({ productId, storageOptions, colorOptions }: ActionsPanelProps) {
-  const [selectedStorage, setSelectedStorage] = useState<number | null>(
-    () => (storageOptions.length === 1 ? storageOptions[0].code : null)
-  )
-  const [selectedColor, setSelectedColor] = useState<number | null>(
-    () => (colorOptions.length === 1 ? colorOptions[0].code : null)
-  )
+  // Default to first option if available
+  const defaultStorage = storageOptions[0]?.code ?? null
+  const defaultColor = colorOptions[0]?.code ?? null
+
+  const [selectedStorage, setSelectedStorage] = useState<number | null>(defaultStorage)
+  const [selectedColor, setSelectedColor] = useState<number | null>(defaultColor)
   const [showToast, setShowToast] = useState(false)
 
   const { mutate, isPending, isError, reset } = useAddToCart()
@@ -25,13 +25,11 @@ export function ActionsPanel({ productId, storageOptions, colorOptions }: Action
   const canAdd = selectedStorage !== null && selectedColor !== null
 
   function handleAddToCart() {
-    if (!canAdd) return
+    if (selectedStorage === null || selectedColor === null) return
     reset()
     mutate(
-      { id: productId, colorCode: selectedColor!, storageCode: selectedStorage! },
-      {
-        onSuccess: () => setShowToast(true),
-      }
+      { id: productId, colorCode: selectedColor, storageCode: selectedStorage },
+      { onSuccess: () => setShowToast(true) }
     )
   }
 
@@ -39,18 +37,22 @@ export function ActionsPanel({ productId, storageOptions, colorOptions }: Action
     <div className="rounded-xl border border-gray-100 bg-white p-6">
       <h2 className="mb-4 text-lg font-semibold text-gray-900">Opciones</h2>
       <div className="space-y-4">
-        <ChipSelector
-          label="Almacenamiento"
-          options={storageOptions}
-          value={selectedStorage}
-          onChange={setSelectedStorage}
-        />
-        <ChipSelector
-          label="Color"
-          options={colorOptions}
-          value={selectedColor}
-          onChange={setSelectedColor}
-        />
+        {storageOptions.length > 0 && (
+          <ChipSelector
+            label="Almacenamiento"
+            options={storageOptions}
+            value={selectedStorage}
+            onChange={setSelectedStorage}
+          />
+        )}
+        {colorOptions.length > 0 && (
+          <ChipSelector
+            label="Color"
+            options={colorOptions}
+            value={selectedColor}
+            onChange={setSelectedColor}
+          />
+        )}
       </div>
 
       {isError && (
@@ -77,10 +79,7 @@ export function ActionsPanel({ productId, storageOptions, colorOptions }: Action
       </button>
 
       {showToast && (
-        <Toast
-          message="Producto añadido al carrito"
-          onClose={() => setShowToast(false)}
-        />
+        <Toast message="Producto añadido al carrito" onClose={() => setShowToast(false)} />
       )}
     </div>
   )

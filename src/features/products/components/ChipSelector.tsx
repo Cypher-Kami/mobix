@@ -15,9 +15,9 @@ export function ChipSelector({ label, options, value, onChange }: ChipSelectorPr
     <div>
       <p className="mb-2 text-sm font-medium text-gray-700">{label}</p>
       <div className="flex flex-wrap gap-2">
-        {options.map((option) => (
+        {options.map((option, index) => (
           <button
-            key={option.code}
+            key={option.code !== undefined ? option.code : index}
             type="button"
             onClick={() => onChange(option.code)}
             className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150 ${

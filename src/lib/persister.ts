@@ -2,5 +2,5 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 
 export const persister = createSyncStoragePersister({
   storage: window.localStorage,
-  key: 'mobix-query-cache',
+  key: 'mobix-query-cache-v2',
 })

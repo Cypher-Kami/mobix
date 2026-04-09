@@ -10,55 +10,59 @@ import type {
 
 const BASE_URL = 'https://itx-frontend-test.onrender.com'
 
-const FALLBACK_STRING = '-'
-const FALLBACK_PRICE = 'Precio no disponible'
+const FALLBACK = '-'
 const FALLBACK_IMG = '/placeholder.png'
 
-// --- Normalización ---
-
-function normalizeString(value: string | null | undefined): string {
-  return value?.trim() || FALLBACK_STRING
+function normalizeField(value: string[] | string | null | undefined): string {
+  if (!value) return FALLBACK
+  if (Array.isArray(value)) return value.join(', ') || FALLBACK
+  return value.trim() || FALLBACK
 }
 
-function normalizePrice(value: string | null | undefined): string {
-  if (!value || value.trim() === '') return FALLBACK_PRICE
-  return `${value} EUR`
+function normalizePrice(value: string[] | string | null | undefined): string {
+  const raw = Array.isArray(value) ? value[0] : value
+  if (!raw || raw.trim() === '') return 'Precio no disponible'
+  return `${raw.trim()} EUR`
 }
 
-// --- Transformaciones DTO → UI_Model ---
+function normalizeImg(value: string[] | string | null | undefined): string {
+  const raw = Array.isArray(value) ? value[0] : value
+  return raw?.trim() || FALLBACK_IMG
+}
 
 export function transformProductDTO(dto: ProductDTO): ProductItem {
   return {
     id: dto.id,
-    brand: normalizeString(dto.brand),
-    model: normalizeString(dto.model),
+    brand: normalizeField(dto.brand),
+    model: normalizeField(dto.model),
     price: normalizePrice(dto.price),
-    imgUrl: dto.imgUrl?.trim() || FALLBACK_IMG,
+    imgUrl: normalizeImg(dto.imgUrl),
   }
 }
 
 export function transformProductDetailDTO(dto: ProductDetailDTO): ProductDetail {
   return {
     id: dto.id,
-    brand: normalizeString(dto.brand),
-    model: normalizeString(dto.model),
+    brand: normalizeField(dto.brand),
+    model: normalizeField(dto.model),
     price: normalizePrice(dto.price),
-    imgUrl: dto.imgUrl?.trim() || FALLBACK_IMG,
-    cpu: normalizeString(dto.cpu),
-    ram: normalizeString(dto.ram),
-    os: normalizeString(dto.os),
-    displayResolution: normalizeString(dto.displayResolution),
-    battery: normalizeString(dto.battery),
-    primaryCamera: dto.primaryCamera?.join(', ') || FALLBACK_STRING,
-    secondaryCamera: dto.secondaryCmera?.join(', ') || FALLBACK_STRING,
-    dimensions: normalizeString(dto.dimentions),
-    weight: normalizeString(dto.weight),
-    storageOptions: dto.internalMemory?.map((m) => ({ code: m.code, label: m.value })) ?? [],
-    colorOptions: dto.colors?.map((c) => ({ code: c.code, label: c.value })) ?? [],
+    imgUrl: normalizeImg(dto.imgUrl),
+    cpu: normalizeField(dto.cpu),
+    ram: normalizeField(dto.ram),
+    os: normalizeField(dto.os),
+    displayResolution: normalizeField(dto.displaySize),
+    battery: normalizeField(dto.battery),
+    primaryCamera: normalizeField(dto.primaryCamera),
+    secondaryCamera: normalizeField(dto.secondaryCmera),
+    dimensions: normalizeField(dto.dimentions),
+    weight: (() => {
+      const raw = Array.isArray(dto.weight) ? dto.weight[0] : dto.weight
+      return raw?.trim() ? `${raw.trim()} g` : FALLBACK
+    })(),
+    storageOptions: dto.options?.storages?.map((s) => ({ code: s.code, label: s.name })) ?? [],
+    colorOptions: dto.options?.colors?.map((c) => ({ code: c.code, label: c.name })) ?? [],
   }
 }
-
-// --- Filtrado ---
 
 export function filterProducts(products: ProductItem[], query: string): ProductItem[] {
   const normalized = query.trim().toLowerCase()
@@ -70,8 +74,6 @@ export function filterProducts(products: ProductItem[], query: string): ProductI
   )
 }
 
-// --- Fetch helpers ---
-
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, options)
   if (!res.ok) {
@@ -79,8 +81,6 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   }
   return res.json() as Promise<T>
 }
-
-// --- Fetch functions ---
 
 export async function fetchProducts(): Promise<ProductItem[]> {
   const dtos = await apiFetch<ProductDTO[]>('/api/product')
