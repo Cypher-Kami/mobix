@@ -65,36 +65,36 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
   let rowIndex = specs(product).length
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-      <div className="border-b border-gray-100 px-5 py-3">
-        <h2 className="text-sm font-semibold text-[#111827]">Especificaciones</h2>
+    <div className="overflow-hidden rounded-lg border border-white/20 bg-[#1e293b]">
+      <div className="border-b border-white/15 px-5 py-3">
+        <h2 className="text-sm font-semibold text-white">Especificaciones</h2>
       </div>
 
       <dl>
         {specs(product).map(({ icon: Icon, label, value }, i) => (
           <div
             key={label}
-            className={`flex items-center gap-3 px-5 py-3 ${i % 2 === 0 ? 'bg-white' : 'bg-[#F5F5F7]'}`}
+            className={`flex items-center gap-3 px-5 py-3 ${i % 2 === 0 ? 'bg-[#1e293b]' : 'bg-[#172033]'}`}
           >
-            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#EAE7E3]">
-              <Icon className="h-3.5 w-3.5 text-gray-600" />
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#845ec2]/30">
+              <Icon className="h-3.5 w-3.5 text-[#845ec2]" />
             </div>
-            <dt className="w-36 shrink-0 text-xs text-gray-500">{label}</dt>
-            <dd className="text-xs font-medium text-[#111827]">{value}</dd>
+            <dt className="w-36 shrink-0 text-xs text-gray-300">{label}</dt>
+            <dd className="text-xs font-medium text-white">{value}</dd>
           </div>
         ))}
 
         {/* Separador Opciones */}
-        <div className="border-t border-gray-100 px-5 py-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Opciones</p>
+        <div className="border-t border-white/15 px-5 py-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-white/70">Opciones</p>
         </div>
 
         {product.storageOptions.length > 0 && (
-          <div className={`flex items-start gap-3 px-5 py-3 ${rowIndex++ % 2 === 0 ? 'bg-white' : 'bg-[#F5F5F7]'}`}>
-            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#EAE7E3]">
-              <HardDrive className="h-3.5 w-3.5 text-gray-600" />
+          <div className={`flex items-start gap-3 px-5 py-3 ${rowIndex++ % 2 === 0 ? 'bg-[#1e293b]' : 'bg-[#172033]'}`}>
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#845ec2]/30">
+              <HardDrive className="h-3.5 w-3.5 text-[#845ec2]" />
             </div>
-            <dt className="w-36 shrink-0 pt-1 text-xs text-gray-500">Almacenamiento</dt>
+            <dt className="w-36 shrink-0 pt-1 text-xs text-gray-300">Almacenamiento</dt>
             <dd className="flex flex-wrap gap-1.5">
               {product.storageOptions.map((opt) => (
                 <button
@@ -103,8 +103,8 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
                   onClick={() => setSelectedStorage(opt.code)}
                   className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-all ${
                     selectedStorage === opt.code
-                      ? 'border-[#111827] bg-[#111827] text-white'
-                      : 'border-gray-200 bg-[#F5F5F7] text-[#111827] hover:bg-[#EAE7E3]'
+                      ? 'border-[#845ec2] bg-[#845ec2] text-white'
+                      : 'border-white/20 bg-white/10 text-gray-300 hover:bg-white/20'
                   }`}
                 >
                   {opt.label}
@@ -115,11 +115,11 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
         )}
 
         {product.colorOptions.length > 0 && (
-          <div className={`flex items-start gap-3 px-5 py-3 ${rowIndex++ % 2 === 0 ? 'bg-white' : 'bg-[#F5F5F7]'}`}>
-            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#EAE7E3]">
-              <Palette className="h-3.5 w-3.5 text-gray-600" />
+          <div className={`flex items-start gap-3 px-5 py-3 ${rowIndex++ % 2 === 0 ? 'bg-[#1e293b]' : 'bg-[#172033]'}`}>
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#845ec2]/30">
+              <Palette className="h-3.5 w-3.5 text-[#845ec2]" />
             </div>
-            <dt className="w-36 shrink-0 pt-1 text-xs text-gray-500">Color</dt>
+            <dt className="w-36 shrink-0 pt-1 text-xs text-gray-300">Color</dt>
             <dd className="flex flex-wrap gap-1.5">
               {product.colorOptions.map((opt) => (
                 <button
@@ -128,8 +128,8 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
                   onClick={() => setSelectedColor(opt.code)}
                   className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-all ${
                     selectedColor === opt.code
-                      ? 'border-[#111827] bg-[#111827] text-white'
-                      : 'border-gray-200 bg-[#F5F5F7] text-[#111827] hover:bg-[#EAE7E3]'
+                      ? 'border-[#845ec2] bg-[#845ec2] text-white'
+                      : 'border-white/20 bg-white/10 text-gray-300 hover:bg-white/20'
                   }`}
                 >
                   {opt.label}
@@ -154,7 +154,7 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
           type="button"
           onClick={handleAddToCart}
           disabled={!canAdd || isPending}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#111827] px-4 py-3 text-sm font-semibold text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#845ec2] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#6b4a9e] disabled:cursor-not-allowed disabled:opacity-50"
           style={{ display: allRows > 0 ? 'flex' : 'none' }}
         >
           <ShoppingCart className="h-4 w-4" />

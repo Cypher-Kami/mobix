@@ -28,10 +28,10 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
             <BreadcrumbItem>
               {item.href ? (
                 <BreadcrumbLink asChild>
-                  <Link to={item.href}>{item.label}</Link>
+                  <Link to={item.href} className="text-white/60 hover:text-white transition-colors">{item.label}</Link>
                 </BreadcrumbLink>
               ) : item.label ? (
-                <BreadcrumbPage className="text-[#111827] font-medium">{item.label}</BreadcrumbPage>
+                <BreadcrumbPage className="text-white font-medium">{item.label}</BreadcrumbPage>
               ) : (
                 <Skeleton className="h-4 w-24" />
               )}

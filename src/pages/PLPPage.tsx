@@ -24,7 +24,7 @@ export default function PLPPage() {
       <Header breadcrumbItems={[]} />
       <main className="mx-auto max-w-7xl px-4 py-6">
         <div className="mb-6 flex items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-gray-400">
             {filteredProducts.length} productos
           </p>
           <div className="w-full max-w-xs">

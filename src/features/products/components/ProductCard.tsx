@@ -39,34 +39,60 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && handleClick()}
-      aria-label={`${product.brand} ${product.model}`}
-      className="flex w-full flex-col border border-gray-200 bg-[#F4F2EF] cursor-pointer transition hover:-translate-y-1"
-    >
-      <div className="h-64 bg-white">
-        <ProductImage
-          src={product.imgUrl}
-          alt={`${product.brand} ${product.model}`}
-          className="h-full w-full object-contain p-4"
-        />
-      </div>
-      <div className="border-t border-gray-200 bg-[#F4F2EF] px-3 py-3">
-        <span className="inline-block mb-1 rounded-full bg-white px-2 py-0.5 text-[11px] font-medium text-gray-700">
-          {product.brand}
+  <div
+    onMouseEnter={handleMouseEnter}
+    onMouseLeave={handleMouseLeave}
+    onClick={handleClick}
+    role="button"
+    tabIndex={0}
+    onKeyDown={(e) => e.key === 'Enter' && handleClick()}
+    aria-label={`${product.brand} ${product.model}`}
+    className="
+      flex w-full flex-col overflow-hidden
+      rounded-md border-2 border-white/20
+      bg-white/5 backdrop-blur-md
+      cursor-pointer
+      transition-all duration-300 ease-out
+      hover:-translate-y-1 hover:scale-[1.01] hover:bg-white/10
+    "
+  >
+    {/* IMAGE */}
+    <div className="h-64 bg-white/90 rounded-t-md">
+      <ProductImage
+        src={product.imgUrl}
+        alt={`${product.brand} ${product.model}`}
+        className="h-full w-full object-contain p-6"
+      />
+    </div>
+
+    {/* CONTENT */}
+    <div className="
+      border-t border-white/10
+      bg-white/5 backdrop-blur-sm
+      text-white
+      px-4 pt-3 pb-3
+    ">
+      
+      {/* BRAND */}
+      <span className="
+        inline-block mb-1
+        rounded-full bg-[#845ec2] px-2 py-0.5
+        text-xs font-semibold text-white
+      ">
+        {product.brand}
+      </span>
+
+      {/* TITLE + PRICE */}
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-sm font-medium line-clamp-1">
+          {product.model}
+        </p>
+
+        <span className="shrink-0 text-sm font-semibold">
+          {product.price.replace(' EUR', '\u00a0€')}
         </span>
-        <div className="flex items-baseline justify-between gap-2">
-          <p className="line-clamp-1 text-md text-[#111827]">{product.model}</p>
-          <span className="shrink-0 text-sm font-bold" style={{ color: 'rgb(69, 71, 69)' }}>
-            {product.price.replace(' EUR', '\u00a0€')}
-          </span>
-        </div>
       </div>
     </div>
-  )
+  </div>
+)
 }

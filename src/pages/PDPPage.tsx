@@ -50,7 +50,7 @@ export default function PDPPage() {
                 <ImageSkeleton />
               ) : product ? (
                 <div className="flex flex-col items-center">
-                  <h1 className="mb-4 text-center text-2xl font-bold text-[#111827]">
+                  <h1 className="mb-4 text-center text-2xl font-bold text-white">
                     {product.brand} {product.model}
                   </h1>
                   <div className="relative flex h-64 w-full overflow-hidden rounded-lg bg-white">

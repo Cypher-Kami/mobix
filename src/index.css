@@ -201,7 +201,9 @@
   }
   body {
     @apply text-foreground;
-    background-color: #F5F5F7;
+    background: radial-gradient(ellipse at top left, #27272a, #52525b, #a1a1aa);
+    background-attachment: fixed;
+    color: #f8fafc;
     min-height: 100vh;
   }
   html {

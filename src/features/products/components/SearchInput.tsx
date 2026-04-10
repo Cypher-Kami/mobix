@@ -15,13 +15,13 @@ export function SearchInput({
 }: SearchInputProps) {
   return (
     <div className="relative">
-      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
       <Input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="pl-9 pr-9"
+        className="pl-9 pr-9 bg-white/10 backdrop-blur-md border-2 border-white/30 text-white placeholder:text-white/30 focus:border-white/50"
         aria-label="Buscar productos"
       />
       {value && (
