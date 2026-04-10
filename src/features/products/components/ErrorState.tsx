@@ -1,4 +1,5 @@
 import { AlertCircle } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface ErrorStateProps {
   message?: string
@@ -11,15 +12,12 @@ export function ErrorState({
 }: ErrorStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <AlertCircle className="mb-4 h-12 w-12 text-red-400" />
-      <p className="text-lg font-medium text-gray-700">{message}</p>
+      <AlertCircle className="mb-4 h-12 w-12 text-destructive/60" />
+      <p className="text-lg font-medium">{message}</p>
       {onRetry && (
-        <button
-          onClick={onRetry}
-          className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-        >
+        <Button onClick={onRetry} className="mt-4" variant="default">
           Reintentar
-        </button>
+        </Button>
       )}
     </div>
   )

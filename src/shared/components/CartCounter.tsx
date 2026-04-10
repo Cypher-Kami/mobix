@@ -1,4 +1,6 @@
 import { ShoppingCart } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 interface CartCounterProps {
   count: number
@@ -6,14 +8,14 @@ interface CartCounterProps {
 
 export function CartCounter({ count }: CartCounterProps) {
   return (
-    <div className="relative flex items-center gap-2">
+    <Button variant="ghost" size="icon" className="relative" aria-label="Carrito">
       <ShoppingCart className="h-5 w-5" />
-      <span
+      <Badge
         key={count}
-        className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white animate-[cartBounce_0.3s_ease-out]"
+        className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs animate-[cartBounce_0.3s_ease-out]"
       >
         {count}
-      </span>
-    </div>
+      </Badge>
+    </Button>
   )
 }

@@ -20,13 +20,13 @@ export default function PLPPage() {
   const filteredProducts = filterProducts(data ?? [], debouncedQuery)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted/30">
       <Header breadcrumbItems={[{ label: 'Inicio' }]} />
       <main className="mx-auto max-w-7xl px-4 py-6">
-        <div className="mb-6 flex items-center justify-between">
-          <span className="text-sm font-medium uppercase tracking-wide text-gray-400">
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground">
             {filteredProducts.length} productos
-          </span>
+          </p>
           <div className="w-72">
             <SearchInput value={searchQuery} onChange={setSearchQuery} />
           </div>

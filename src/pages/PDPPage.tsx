@@ -1,5 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useProductDetail } from '@/features/products/hooks/useProductDetail'
 import { Header } from '@/shared/components/Header'
 import { ProductImage } from '@/features/products/components/ProductImage'
@@ -8,16 +11,16 @@ import { ActionsPanel } from '@/features/products/components/ActionsPanel'
 import { ErrorState } from '@/features/products/components/ErrorState'
 
 function ImageSkeleton() {
-  return <div className="aspect-square w-full animate-pulse rounded-xl bg-gray-200" />
+  return <Skeleton className="aspect-square w-full rounded-xl" />
 }
 
 function DescriptionSkeleton() {
   return (
-    <div className="rounded-xl border border-gray-100 bg-white p-6 space-y-3">
+    <div className="space-y-3 rounded-xl border p-6">
       {Array.from({ length: 8 }).map((_, i) => (
         <div key={i} className="flex justify-between">
-          <div className="h-4 w-1/3 animate-pulse rounded bg-gray-200" />
-          <div className="h-4 w-1/3 animate-pulse rounded bg-gray-200" />
+          <Skeleton className="h-4 w-1/3" />
+          <Skeleton className="h-4 w-1/3" />
         </div>
       ))}
     </div>
@@ -34,16 +37,15 @@ export default function PDPPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted/30">
       <Header breadcrumbItems={breadcrumbItems} />
       <main className="mx-auto max-w-7xl px-4 py-6">
-        <Link
-          to="/"
-          className="mb-6 inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Volver al catálogo
-        </Link>
+        <Button variant="ghost" size="sm" asChild className="mb-6 -ml-2">
+          <Link to="/">
+            <ArrowLeft className="mr-1.5 h-4 w-4" />
+            Volver al catálogo
+          </Link>
+        </Button>
 
         {isError && (
           <ErrorState
@@ -54,22 +56,22 @@ export default function PDPPage() {
 
         {!isError && (
           <div className="flex flex-col gap-6 lg:flex-row">
-            {/* Columna izquierda — Imagen */}
             <div className="lg:w-2/5">
               {isLoading ? (
                 <ImageSkeleton />
               ) : product ? (
-                <div className="flex items-center justify-center rounded-xl border border-gray-100 bg-white p-6">
-                  <ProductImage
-                    src={product.imgUrl}
-                    alt={`${product.brand} ${product.model}`}
-                    className="h-64 w-full object-contain"
-                  />
-                </div>
+                <Card>
+                  <CardContent className="flex items-center justify-center p-8">
+                    <ProductImage
+                      src={product.imgUrl}
+                      alt={`${product.brand} ${product.model}`}
+                      className="h-72 w-full object-contain"
+                    />
+                  </CardContent>
+                </Card>
               ) : null}
             </div>
 
-            {/* Columna derecha — Descripción + Acciones */}
             <div className="flex flex-col gap-4 lg:flex-1">
               {isLoading ? (
                 <DescriptionSkeleton />

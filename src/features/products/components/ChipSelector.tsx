@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/button'
+
 interface ChipOption {
   code: number
   label: string
@@ -13,21 +15,18 @@ interface ChipSelectorProps {
 export function ChipSelector({ label, options, value, onChange }: ChipSelectorProps) {
   return (
     <div>
-      <p className="mb-2 text-sm font-medium text-gray-700">{label}</p>
+      <p className="mb-2 text-sm font-medium">{label}</p>
       <div className="flex flex-wrap gap-2">
         {options.map((option, index) => (
-          <button
+          <Button
             key={option.code !== undefined ? option.code : index}
             type="button"
+            variant={value === option.code ? 'default' : 'outline'}
+            size="sm"
             onClick={() => onChange(option.code)}
-            className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-150 ${
-              value === option.code
-                ? 'border-blue-600 bg-blue-600 text-white'
-                : 'border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:text-blue-600'
-            }`}
           >
             {option.label}
-          </button>
+          </Button>
         ))}
       </div>
     </div>
