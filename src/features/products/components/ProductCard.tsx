@@ -57,7 +57,7 @@ export function ProductCard({ product }: ProductCardProps) {
     "
   >
     {/* IMAGE */}
-    <div className="h-64 bg-white/90 rounded-t-md">
+    <div className="h-64 bg-white rounded-t-md">
       <ProductImage
         src={product.imgUrl}
         alt={`${product.brand} ${product.model}`}

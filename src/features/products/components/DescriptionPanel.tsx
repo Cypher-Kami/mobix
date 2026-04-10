@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   Cpu,
   MemoryStick,
@@ -13,8 +13,8 @@ import {
   Building2,
   HardDrive,
   Palette,
-  ShoppingCart,
 } from 'lucide-react'
+import { CartIcon, type CartIconHandle } from '@/components/ui/cart'
 import { toast } from 'sonner'
 import { useAddToCart } from '@/features/cart/hooks/useAddToCart'
 import type { ProductDetail } from '@/features/products/api/productTypes'
@@ -46,6 +46,7 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
   const [selectedColor, setSelectedColor] = useState<number | null>(defaultColor)
 
   const { mutate, isPending, isError, reset } = useAddToCart()
+  const cartRef = useRef<CartIconHandle>(null)
 
   const canAdd = selectedStorage !== null && selectedColor !== null
 
@@ -154,10 +155,12 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
           type="button"
           onClick={handleAddToCart}
           disabled={!canAdd || isPending}
+          onMouseEnter={() => cartRef.current?.startAnimation()}
+          onMouseLeave={() => cartRef.current?.stopAnimation()}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#845ec2] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#6b4a9e] disabled:cursor-not-allowed disabled:opacity-50"
           style={{ display: allRows > 0 ? 'flex' : 'none' }}
         >
-          <ShoppingCart className="h-4 w-4" />
+          <CartIcon ref={cartRef} size={24} />
           {isPending ? 'Añadiendo...' : 'Añadir al carrito'}
         </button>
       </div>

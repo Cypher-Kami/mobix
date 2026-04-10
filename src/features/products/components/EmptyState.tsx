@@ -1,4 +1,4 @@
-import { PackageSearch } from 'lucide-react'
+import { PickaxeIcon } from '@/components/ui/pickaxe'
 
 interface EmptyStateProps {
   query: string
@@ -7,7 +7,7 @@ interface EmptyStateProps {
 export function EmptyState({ query }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <PackageSearch className="mb-4 h-12 w-12 text-muted-foreground/40" />
+      <PickaxeIcon className="mb-4 h-12 w-12 text-muted-foreground/40" />
       <p className="text-lg font-medium text-muted-foreground">
         No hay resultados para{' '}
         <span className="font-semibold text-foreground">"{query}"</span>

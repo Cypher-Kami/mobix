@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Smartphone } from 'lucide-react'
 import { useProducts } from '@/features/products/hooks/useProducts'
 import { filterProducts } from '@/features/products/api/productApi'
 import { Header } from '@/shared/components/Header'
@@ -24,8 +25,9 @@ export default function PLPPage() {
       <Header breadcrumbItems={[]} />
       <main className="mx-auto max-w-7xl px-4 py-6">
         <div className="mb-6 flex items-center justify-between gap-4">
-          <p className="text-sm text-gray-400">
-            {filteredProducts.length} productos
+          <p className="flex items-center gap-1.5 text-sm text-gray-400">
+            <Smartphone className="h-4 w-4" />
+            {filteredProducts.length} {filteredProducts.length === 1 ? 'producto' : 'productos'}
           </p>
           <div className="w-full max-w-xs">
             <SearchInput value={searchQuery} onChange={setSearchQuery} />

@@ -201,10 +201,25 @@
   }
   body {
     @apply text-foreground;
-    background: radial-gradient(ellipse at top left, #27272a, #52525b, #a1a1aa);
+    background: linear-gradient(135deg, #172033, #1e293b, #1a1f2e, #172033);
     background-attachment: fixed;
     color: #f8fafc;
     min-height: 100vh;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle at center, #FF7112, transparent);
+    opacity: 0.3;
+    mix-blend-mode: multiply;
+  }
+  body > * {
+    position: relative;
+    z-index: 1;
   }
   html {
     @apply font-sans;
