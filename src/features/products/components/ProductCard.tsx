@@ -1,8 +1,6 @@
 import { useRef } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { ProductImage } from './ProductImage'
 import { fetchProductDetail } from '@/features/products/api/productApi'
 import { ONE_HOUR_MS } from '@/lib/queryClient'
@@ -41,8 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Card
-      className="cursor-pointer transition-all duration-150 hover:scale-[1.02] hover:shadow-md"
+    <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
@@ -50,23 +47,26 @@ export function ProductCard({ product }: ProductCardProps) {
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && handleClick()}
       aria-label={`${product.brand} ${product.model}`}
+      className="flex w-full flex-col border border-gray-200 bg-[#F4F2EF] cursor-pointer transition hover:-translate-y-1"
     >
-      <CardContent className="p-4">
-        <div className="mb-4 overflow-hidden rounded-lg bg-muted/30">
-          <ProductImage
-            src={product.imgUrl}
-            alt={`${product.brand} ${product.model}`}
-            className="aspect-square w-full object-contain p-2"
-          />
+      <div className="h-64 bg-white">
+        <ProductImage
+          src={product.imgUrl}
+          alt={`${product.brand} ${product.model}`}
+          className="h-full w-full object-contain p-4"
+        />
+      </div>
+      <div className="border-t border-gray-200 bg-[#F4F2EF] px-3 py-3">
+        <span className="inline-block mb-1 rounded-full bg-white px-2 py-0.5 text-[11px] font-medium text-gray-700">
+          {product.brand}
+        </span>
+        <div className="flex items-baseline justify-between gap-2">
+          <p className="line-clamp-1 text-md text-[#111827]">{product.model}</p>
+          <span className="shrink-0 text-sm font-bold" style={{ color: 'rgb(69, 71, 69)' }}>
+            {product.price.replace(' EUR', '\u00a0€')}
+          </span>
         </div>
-        <div className="space-y-1.5">
-          <Badge variant="secondary" className="text-xs font-normal">
-            {product.brand}
-          </Badge>
-          <p className="font-semibold leading-tight">{product.model}</p>
-          <p className="text-sm font-medium text-primary">{product.price}</p>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

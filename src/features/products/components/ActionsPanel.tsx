@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import { ShoppingCart } from 'lucide-react'
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { ChipSelector } from './ChipSelector'
 import { useAddToCart } from '@/features/cart/hooks/useAddToCart'
 import type { StorageOption, ColorOption } from '@/features/products/api/productTypes'
@@ -38,11 +35,11 @@ export function ActionsPanel({ productId, storageOptions, colorOptions }: Action
   }
 
   return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base">Opciones</CardTitle>
-      </CardHeader>
-      <CardContent className="pt-0 space-y-4">
+    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+      <div className="border-b border-gray-100 px-5 py-3">
+        <h2 className="text-sm font-semibold text-[#111827]">Opciones</h2>
+      </div>
+      <div className="space-y-4 px-5 py-4">
         {storageOptions.length > 0 && (
           <ChipSelector
             label="Almacenamiento"
@@ -51,7 +48,6 @@ export function ActionsPanel({ productId, storageOptions, colorOptions }: Action
             onChange={setSelectedStorage}
           />
         )}
-        {colorOptions.length > 0 && storageOptions.length > 0 && <Separator />}
         {colorOptions.length > 0 && (
           <ChipSelector
             label="Color"
@@ -62,7 +58,7 @@ export function ActionsPanel({ productId, storageOptions, colorOptions }: Action
         )}
 
         {isError && (
-          <p className="text-sm text-destructive">
+          <p className="text-xs text-red-500">
             Error al añadir.{' '}
             <button type="button" onClick={handleAddToCart} className="underline">
               Reintentar
@@ -70,17 +66,16 @@ export function ActionsPanel({ productId, storageOptions, colorOptions }: Action
           </p>
         )}
 
-        <Button
+        <button
           type="button"
           onClick={handleAddToCart}
           disabled={!canAdd || isPending}
-          className="w-full"
-          size="lg"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#111827] px-4 py-3 text-sm font-semibold text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-50"
         >
-          <ShoppingCart className="mr-2 h-4 w-4" />
+          <ShoppingCart className="h-4 w-4" />
           {isPending ? 'Añadiendo...' : 'Añadir al carrito'}
-        </Button>
-      </CardContent>
-    </Card>
+        </button>
+      </div>
+    </div>
   )
 }

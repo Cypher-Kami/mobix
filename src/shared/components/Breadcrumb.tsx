@@ -31,7 +31,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
                   <Link to={item.href}>{item.label}</Link>
                 </BreadcrumbLink>
               ) : item.label ? (
-                <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                <BreadcrumbPage className="text-[#111827] font-medium">{item.label}</BreadcrumbPage>
               ) : (
                 <Skeleton className="h-4 w-24" />
               )}

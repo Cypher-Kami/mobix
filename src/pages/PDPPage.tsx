@@ -1,22 +1,18 @@
-import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { useParams } from 'react-router-dom'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useProductDetail } from '@/features/products/hooks/useProductDetail'
 import { Header } from '@/shared/components/Header'
 import { ProductImage } from '@/features/products/components/ProductImage'
 import { DescriptionPanel } from '@/features/products/components/DescriptionPanel'
-import { ActionsPanel } from '@/features/products/components/ActionsPanel'
 import { ErrorState } from '@/features/products/components/ErrorState'
 
 function ImageSkeleton() {
-  return <Skeleton className="aspect-square w-full rounded-xl" />
+  return <Skeleton className="h-44 w-full rounded-lg" />
 }
 
 function DescriptionSkeleton() {
   return (
-    <div className="space-y-3 rounded-xl border p-6">
+    <div className="space-y-3 rounded-lg border border-gray-200 bg-white p-5">
       {Array.from({ length: 8 }).map((_, i) => (
         <div key={i} className="flex justify-between">
           <Skeleton className="h-4 w-1/3" />
@@ -37,16 +33,9 @@ export default function PDPPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className="min-h-screen">
       <Header breadcrumbItems={breadcrumbItems} />
       <main className="mx-auto max-w-7xl px-4 py-6">
-        <Button variant="ghost" size="sm" asChild className="mb-6 -ml-2">
-          <Link to="/">
-            <ArrowLeft className="mr-1.5 h-4 w-4" />
-            Volver al catálogo
-          </Link>
-        </Button>
-
         {isError && (
           <ErrorState
             message="No se pudo cargar el producto."
@@ -60,15 +49,18 @@ export default function PDPPage() {
               {isLoading ? (
                 <ImageSkeleton />
               ) : product ? (
-                <Card>
-                  <CardContent className="flex items-center justify-center p-8">
+                <div className="flex flex-col items-center">
+                  <h1 className="mb-4 text-center text-2xl font-bold text-[#111827]">
+                    {product.brand} {product.model}
+                  </h1>
+                  <div className="relative flex h-64 w-full overflow-hidden rounded-lg bg-white">
                     <ProductImage
                       src={product.imgUrl}
                       alt={`${product.brand} ${product.model}`}
-                      className="h-72 w-full object-contain"
+                      className="h-full w-full object-contain p-4"
                     />
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ) : null}
             </div>
 
@@ -78,11 +70,6 @@ export default function PDPPage() {
               ) : product ? (
                 <>
                   <DescriptionPanel product={product} />
-                  <ActionsPanel
-                    productId={product.id}
-                    storageOptions={product.storageOptions}
-                    colorOptions={product.colorOptions}
-                  />
                 </>
               ) : null}
             </div>

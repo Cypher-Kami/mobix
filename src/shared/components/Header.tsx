@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { Separator } from '@/components/ui/separator'
 import { Breadcrumb } from './Breadcrumb'
 import { CartCounter } from './CartCounter'
 import { useCartStore } from '@/features/cart/store/cartStore'
@@ -12,16 +11,17 @@ export function Header({ breadcrumbItems }: HeaderProps) {
   const count = useCartStore((s) => s.count)
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 h-14">
-        <div className="flex items-center gap-4">
-          <Link to="/" className="text-lg font-bold tracking-tight">
-            Mobix
-          </Link>
-          <Separator orientation="vertical" className="h-4" />
+    <header className="sticky top-0 z-50 w-full bg-[#F4F2EF] border-b border-[#E5E7EB]">
+      <div className="mx-auto grid max-w-7xl grid-cols-3 items-center px-4 h-16">
+        <Link to="/" className="text-lg font-bold tracking-tight text-[#111827]">
+          Mobix
+        </Link>
+        <div className="flex justify-center">
           <Breadcrumb items={breadcrumbItems} />
         </div>
-        <CartCounter count={count} />
+        <div className="flex justify-end">
+          <CartCounter count={count} />
+        </div>
       </div>
     </header>
   )
