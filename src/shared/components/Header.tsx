@@ -23,19 +23,26 @@ export function Header({ breadcrumbItems }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/10 backdrop-blur-xl border-b border-white/20">
-      <div className="mx-auto grid max-w-7xl grid-cols-3 items-center px-4 h-16">
-        <Link to="/" className="flex items-center gap-2" aria-label="Mobix — Ir al inicio">
-          <WrenchIcon ref={wrenchRef} size={22} className="text-[#845ec2]" />
-          <span className="text-xl font-bold tracking-tight text-[#845ec2]" style={{ fontFamily: "'Zen Dots', cursive" }}>
-            Mobix
-          </span>
-        </Link>
-        <div className="flex justify-center min-w-0 mx-4">
-          <Breadcrumb items={breadcrumbItems} />
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="flex items-center justify-between h-14 sm:h-16">
+          <Link to="/" className="flex shrink-0 items-center gap-2" aria-label="Mobix — Ir al inicio">
+            <WrenchIcon ref={wrenchRef} size={22} className="text-[#845ec2]" />
+            <span className="text-xl font-bold tracking-tight text-[#845ec2]" style={{ fontFamily: 'ZenDots, cursive' }}>
+              Mobix
+            </span>
+          </Link>
+          <div className="hidden sm:flex flex-1 justify-center mx-4 min-w-0 overflow-hidden">
+            <Breadcrumb items={breadcrumbItems} />
+          </div>
+          <div className="shrink-0">
+            <CartCounter count={count} />
+          </div>
         </div>
-        <div className="flex justify-end">
-          <CartCounter count={count} />
-        </div>
+        {breadcrumbItems.length > 0 && (
+          <div className="sm:hidden flex justify-center pb-2 -mt-1">
+            <Breadcrumb items={breadcrumbItems} />
+          </div>
+        )}
       </div>
     </header>
   )

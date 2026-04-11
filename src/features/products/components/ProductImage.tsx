@@ -14,6 +14,7 @@ export function ProductImage({ src, alt, className }: ProductImageProps) {
       src={imgSrc}
       alt={alt}
       className={className}
+      loading="lazy"
       onError={() => setImgSrc('/placeholder.png')}
     />
   )

@@ -3,6 +3,14 @@
 @import "shadcn/tailwind.css";
 
 @font-face {
+  font-family: ZenDots;
+  src: url(/fonts/ZenDots-Regular.ttf) format('truetype');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
   font-family: UncutSans;
   src: url(/fonts/UncutSans-Variable.woff2) format('woff2');
   font-display: swap;
@@ -84,8 +92,8 @@
 }
 
 @keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 15px 2px rgba(165, 39, 255, 0.3); }
-  50% { box-shadow: 0 20px 60px 10px rgba(165, 39, 255, 0.5); }
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(165, 39, 255, 0.6)); }
+  50% { filter: drop-shadow(0 15px 40px rgba(165, 39, 255, 0.9)); }
 }
 
 @theme inline {
