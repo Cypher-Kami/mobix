@@ -1,16 +1,23 @@
 import { useMutation } from '@tanstack/react-query'
 import { postCart } from '@/features/products/api/productApi'
-import { useCartStore } from '@/features/cart/store/cartStore'
+import { useCartStore, type CartItem } from '@/features/cart/store/cartStore'
+
+interface AddToCartParams {
+  id: string
+  colorCode: number
+  storageCode: number
+  item: CartItem
+}
 
 export function useAddToCart() {
-  const setCount = useCartStore((s) => s.setCount)
+  const addItem = useCartStore((s) => s.addItem)
 
   return useMutation({
-    mutationFn: postCart,
+    mutationFn: ({ id, colorCode, storageCode }: AddToCartParams) =>
+      postCart({ id, colorCode, storageCode }),
     retry: 0,
-    onSuccess: () => {
-      const current = useCartStore.getState().count
-      setCount(current + 1)
+    onSuccess: (_data, variables) => {
+      addItem(variables.item)
     },
   })
 }

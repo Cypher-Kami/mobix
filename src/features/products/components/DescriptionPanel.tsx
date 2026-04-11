@@ -54,7 +54,19 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
     if (selectedStorage === null || selectedColor === null) return
     reset()
     mutate(
-      { id: product.id, colorCode: selectedColor, storageCode: selectedStorage },
+      {
+        id: product.id,
+        colorCode: selectedColor,
+        storageCode: selectedStorage,
+        item: {
+          id: product.id,
+          brand: product.brand,
+          model: product.model,
+          imgUrl: product.imgUrl,
+          storageLabel: product.storageOptions.find(o => o.code === selectedStorage)?.label ?? '',
+          colorLabel: product.colorOptions.find(o => o.code === selectedColor)?.label ?? '',
+        },
+      },
       {
         onSuccess: () => toast.success('Producto añadido al carrito'),
         onError: () => toast.error('No se pudo añadir al carrito'),
