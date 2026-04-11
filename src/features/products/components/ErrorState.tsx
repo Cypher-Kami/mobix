@@ -11,7 +11,7 @@ export function ErrorState({
   onRetry,
 }: ErrorStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
+    <div className="flex flex-col items-center justify-center py-20 text-center" role="alert">
       <BadgeAlertIcon className="mb-4 h-12 w-12 text-destructive/60" />
       <p className="text-lg font-medium">{message}</p>
       {onRetry && (

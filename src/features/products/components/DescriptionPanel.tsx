@@ -102,6 +102,7 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
                   key={opt.code}
                   type="button"
                   onClick={() => setSelectedStorage(opt.code)}
+                  aria-pressed={selectedStorage === opt.code}
                   className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-all ${
                     selectedStorage === opt.code
                       ? 'border-[#845ec2] bg-[#845ec2] text-white'
@@ -127,6 +128,7 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
                   key={opt.code}
                   type="button"
                   onClick={() => setSelectedColor(opt.code)}
+                  aria-pressed={selectedColor === opt.code}
                   className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-all ${
                     selectedColor === opt.code
                       ? 'border-[#845ec2] bg-[#845ec2] text-white'
@@ -160,7 +162,7 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#845ec2] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#6b4a9e] disabled:cursor-not-allowed disabled:opacity-50"
           style={{ display: allRows > 0 ? 'flex' : 'none' }}
         >
-          <CartIcon ref={cartRef} size={24} />
+          <CartIcon ref={cartRef} size={24} aria-hidden="true" />
           {isPending ? 'Añadiendo...' : 'Añadir al carrito'}
         </button>
       </div>

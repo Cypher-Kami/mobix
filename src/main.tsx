@@ -6,16 +6,19 @@ import { Toaster } from '@/components/ui/sonner'
 import { queryClient, ONE_HOUR_MS } from '@/lib/queryClient'
 import { persister } from '@/lib/persister'
 import { router } from '@/router'
+import { ErrorBoundary } from '@/shared/components/ErrorBoundary'
 import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{ persister, maxAge: ONE_HOUR_MS }}
-    >
-      <RouterProvider router={router} />
-      <Toaster position="bottom-right" richColors />
-    </PersistQueryClientProvider>
+    <ErrorBoundary>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister, maxAge: ONE_HOUR_MS }}
+      >
+        <RouterProvider router={router} />
+        <Toaster position="bottom-right" richColors />
+      </PersistQueryClientProvider>
+    </ErrorBoundary>
   </StrictMode>,
 )

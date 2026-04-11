@@ -24,7 +24,7 @@ export function Header({ breadcrumbItems }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full bg-white/10 backdrop-blur-xl border-b border-white/20">
       <div className="mx-auto grid max-w-7xl grid-cols-3 items-center px-4 h-16">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2" aria-label="Mobix — Ir al inicio">
           <WrenchIcon ref={wrenchRef} size={22} className="text-[#845ec2]" />
           <span className="text-xl font-bold tracking-tight text-[#845ec2]" style={{ fontFamily: "'Zen Dots', cursive" }}>
             Mobix

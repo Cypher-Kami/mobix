@@ -8,8 +8,9 @@ export function useAddToCart() {
   return useMutation({
     mutationFn: postCart,
     retry: 0,
-    onSuccess: (data) => {
-      setCount(data.count)
+    onSuccess: () => {
+      const current = useCartStore.getState().count
+      setCount(current + 1)
     },
   })
 }

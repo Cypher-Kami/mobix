@@ -12,13 +12,15 @@ export function CartCounter({ count }: CartCounterProps) {
   return (
     <div
       className="relative cursor-pointer p-2"
-      aria-label="Carrito"
+      role="status"
+      aria-label={`Carrito: ${count} ${count === 1 ? 'producto' : 'productos'}`}
       onMouseEnter={() => cartRef.current?.startAnimation()}
       onMouseLeave={() => cartRef.current?.stopAnimation()}
     >
-      <CartIcon ref={cartRef} size={22} />
+      <CartIcon ref={cartRef} size={22} aria-hidden="true" />
       <Badge
         key={count}
+        aria-hidden="true"
         className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-[#845ec2] text-white border-0 animate-[cartBounce_0.3s_ease-out]"
       >
         {count}
