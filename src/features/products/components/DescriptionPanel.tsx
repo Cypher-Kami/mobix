@@ -86,12 +86,12 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
         ))}
 
         {/* Separador Opciones */}
-        <div className="border-t border-white/15 px-5 py-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-white/70">Opciones</p>
+        <div className="border-t border-white/15 px-5 py-4">
+          <p className="text-sm font-semibold text-white">Acciones</p>
         </div>
 
         {product.storageOptions.length > 0 && (
-          <div className={`flex items-start gap-3 px-5 py-3 ${rowIndex++ % 2 === 0 ? 'bg-[#1e293b]' : 'bg-[#172033]'}`}>
+          <div className={` border-t border-white/15 flex items-start gap-3 px-5 py-3 ${rowIndex++ % 2 === 0 ? 'bg-[#1e293b]' : 'bg-[#172033]'}`}>
             <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#845ec2]/30">
               <HardDrive className="h-3.5 w-3.5 text-[#845ec2]" />
             </div>

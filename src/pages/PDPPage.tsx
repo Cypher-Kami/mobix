@@ -1,4 +1,5 @@
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
+import { ArrowLeft } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useProductDetail } from '@/features/products/hooks/useProductDetail'
 import { Header } from '@/shared/components/Header'
@@ -60,6 +61,13 @@ export default function PDPPage() {
                       className="h-full w-full object-contain p-4"
                     />
                   </div>
+                  <Link
+                    to="/"
+                    className="mt-3 inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white transition-colors"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Volver al catálogo
+                  </Link>
                 </div>
               ) : null}
             </div>
