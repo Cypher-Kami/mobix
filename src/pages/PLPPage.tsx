@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Smartphone } from 'lucide-react'
 import { useProducts } from '@/features/products/hooks/useProducts'
 import { filterProducts } from '@/features/products/api/productApi'
@@ -9,16 +9,8 @@ import { ProductGrid } from '@/features/products/components/ProductGrid'
 export default function PLPPage() {
   const { data, isLoading, isError, refetch } = useProducts()
   const [searchQuery, setSearchQuery] = useState('')
-  const [debouncedQuery, setDebouncedQuery] = useState('')
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(searchQuery)
-    }, 300)
-    return () => clearTimeout(timer)
-  }, [searchQuery])
-
-  const filteredProducts = filterProducts(data ?? [], debouncedQuery)
+  const filteredProducts = filterProducts(data ?? [], searchQuery)
 
   return (
     <div className="min-h-screen">
@@ -37,7 +29,7 @@ export default function PLPPage() {
           products={filteredProducts}
           isLoading={isLoading}
           isError={isError}
-          searchQuery={debouncedQuery}
+          searchQuery={searchQuery}
           onRetry={() => void refetch()}
         />
       </main>
