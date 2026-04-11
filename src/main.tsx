@@ -14,7 +14,15 @@ createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       <PersistQueryClientProvider
         client={queryClient}
-        persistOptions={{ persister, maxAge: ONE_HOUR_MS }}
+        persistOptions={{
+          persister,
+          maxAge: ONE_HOUR_MS,
+          dehydrateOptions: {
+            shouldDehydrateQuery: (query) => {
+              return query.state.status === 'success'
+            },
+          },
+        }}
       >
         <RouterProvider router={router} />
         <Toaster position="bottom-right" richColors />

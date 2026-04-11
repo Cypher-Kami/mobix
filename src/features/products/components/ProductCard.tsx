@@ -1,38 +1,13 @@
-import { useRef } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { ProductImage } from './ProductImage'
-import { fetchProductDetail } from '@/features/products/api/productApi'
-import { ONE_HOUR_MS } from '@/lib/queryClient'
 import type { ProductItem } from '@/features/products/api/productTypes'
-
-const PREFETCH_DELAY_MS = 150
 
 interface ProductCardProps {
   product: ProductItem
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  function handleMouseEnter() {
-    timerRef.current = setTimeout(() => {
-      void queryClient.prefetchQuery({
-        queryKey: ['product', product.id],
-        queryFn: () => fetchProductDetail(product.id),
-        staleTime: ONE_HOUR_MS,
-      })
-    }, PREFETCH_DELAY_MS)
-  }
-
-  function handleMouseLeave() {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current)
-      timerRef.current = null
-    }
-  }
 
   function handleClick() {
     navigate(`/product/${product.id}`)
@@ -40,8 +15,6 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
   <div
-    onMouseEnter={handleMouseEnter}
-    onMouseLeave={handleMouseLeave}
     onClick={handleClick}
     role="button"
     tabIndex={0}
@@ -57,7 +30,6 @@ export function ProductCard({ product }: ProductCardProps) {
       hover:animate-[glowPulse_2s_ease-in-out_infinite]
     "
   >
-    {/* IMAGE */}
     <div className="h-64 bg-white rounded-t-md">
       <ProductImage
         src={product.imgUrl}
@@ -66,15 +38,12 @@ export function ProductCard({ product }: ProductCardProps) {
       />
     </div>
 
-    {/* CONTENT */}
     <div className="
       border-t border-white/10
       bg-white/5
       text-white
       px-4 pt-3 pb-3
     ">
-      
-      {/* BRAND */}
       <span className="
         inline-block mb-1
         rounded-full bg-[#845ec2] px-2 py-0.5
@@ -83,12 +52,10 @@ export function ProductCard({ product }: ProductCardProps) {
         {product.brand}
       </span>
 
-      {/* TITLE + PRICE */}
       <div className="flex items-center justify-between gap-2">
         <p className="text-sm font-medium line-clamp-1">
           {product.model}
         </p>
-
         <span className="shrink-0 text-sm font-semibold">
           {product.price.replace(' EUR', '\u00a0€')}
         </span>
