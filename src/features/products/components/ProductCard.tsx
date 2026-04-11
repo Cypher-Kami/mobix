@@ -49,11 +49,12 @@ export function ProductCard({ product }: ProductCardProps) {
     aria-label={`${product.brand} ${product.model}`}
     className="
       flex w-full flex-col overflow-hidden
-      rounded-md border-2 border-white/20
+      rounded-md border border-white/50
       bg-white/5 backdrop-blur-md
       cursor-pointer
       transition-all duration-300 ease-out
       hover:-translate-y-1 hover:scale-[1.01] hover:bg-white/10
+      hover:animate-[glowPulse_2s_ease-in-out_infinite]
     "
   >
     {/* IMAGE */}
@@ -68,7 +69,7 @@ export function ProductCard({ product }: ProductCardProps) {
     {/* CONTENT */}
     <div className="
       border-t border-white/10
-      bg-white/5 backdrop-blur-sm
+      bg-white/5
       text-white
       px-4 pt-3 pb-3
     ">

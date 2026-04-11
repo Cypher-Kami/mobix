@@ -21,7 +21,7 @@ interface BreadcrumbProps {
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <ShadBreadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="text-xs sm:text-sm max-w-[200px] sm:max-w-none truncate flex-nowrap">
         {items.map((item, index) => (
           <span key={index} className="flex items-center gap-1.5">
             {index > 0 && <BreadcrumbSeparator />}
