@@ -89,7 +89,7 @@ export function CartCounter({ count }: CartCounterProps) {
     >
       <button
         type="button"
-        className="relative flex items-center gap-1 cursor-pointer p-2"
+        className="relative flex items-center gap-1 cursor-pointer rounded-full bg-[#0f172a] p-2.5"
         aria-label={`Carrito: ${count} ${count === 1 ? 'producto' : 'productos'}`}
         aria-expanded={hasItems ? open : undefined}
         onClick={handleClick}
