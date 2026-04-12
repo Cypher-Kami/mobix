@@ -8,23 +8,37 @@ interface CartCounterProps {
   count: number
 }
 
+function useIsTouch() {
+  const [isTouch, setIsTouch] = useState(false)
+  useEffect(() => {
+    function onTouch() { setIsTouch(true) }
+    window.addEventListener('touchstart', onTouch, { once: true })
+    return () => window.removeEventListener('touchstart', onTouch)
+  }, [])
+  return isTouch
+}
+
 export function CartCounter({ count }: CartCounterProps) {
   const cartRef = useRef<CartIconHandle>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout>>(null)
   const [open, setOpen] = useState(false)
   const items = useCartStore((s) => s.items)
+  const isTouch = useIsTouch()
 
   const hasItems = count > 0
 
-  const scheduleClose = useCallback(() => {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-    closeTimer.current = setTimeout(() => setOpen(false), 400)
+  const cancelClose = useCallback(() => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current)
+      closeTimer.current = null
+    }
   }, [])
 
-  const cancelClose = useCallback(() => {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-  }, [])
+  const scheduleClose = useCallback(() => {
+    cancelClose()
+    closeTimer.current = setTimeout(() => setOpen(false), 400)
+  }, [cancelClose])
 
   function handleClick() {
     if (!hasItems) return
@@ -33,40 +47,38 @@ export function CartCounter({ count }: CartCounterProps) {
   }
 
   function handleMouseEnter() {
-    if (!hasItems) return
+    if (isTouch || !hasItems) return
     cancelClose()
     setOpen(true)
     cartRef.current?.startAnimation()
   }
 
   function handleMouseLeave() {
+    if (isTouch) return
     cartRef.current?.stopAnimation()
     scheduleClose()
   }
 
-  // Close on outside click/touch (mobile)
+  // Close on outside click/touch
   useEffect(() => {
-    function handleOutside(e: MouseEvent | TouchEvent) {
+    if (!open) return
+    function handleOutside(e: Event) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        cancelClose()
         setOpen(false)
       }
     }
-    if (open) {
-      document.addEventListener('mousedown', handleOutside)
-      document.addEventListener('touchstart', handleOutside)
-    }
+    document.addEventListener('mousedown', handleOutside)
+    document.addEventListener('touchstart', handleOutside)
     return () => {
       document.removeEventListener('mousedown', handleOutside)
       document.removeEventListener('touchstart', handleOutside)
     }
-  }, [open])
+  }, [open, cancelClose])
 
-  // Cleanup timer
   useEffect(() => {
-    return () => {
-      if (closeTimer.current) clearTimeout(closeTimer.current)
-    }
-  }, [])
+    return () => cancelClose()
+  }, [cancelClose])
 
   return (
     <div
