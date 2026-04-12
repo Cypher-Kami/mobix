@@ -1,57 +1,28 @@
-import { useRef, useState } from 'react'
-import {
-  Cpu,
-  MemoryStick,
-  Smartphone,
-  Monitor,
-  Battery,
-  Camera,
-  CameraOff,
-  Ruler,
-  Weight,
-  Tag,
-  Building2,
-  HardDrive,
-  Palette,
-} from 'lucide-react'
-import { CartIcon, type CartIconHandle } from '@/components/ui/cart'
+import { useState } from 'react'
+import { HardDrive, Palette } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAddToCart } from '@/features/cart/hooks/useAddToCart'
 import type { ProductDetail } from '@/features/products/api/productTypes'
+import { buildSpecs } from './description/buildSpecs'
+import { SpecRow } from './description/SpecRow'
+import { OptionSelector } from './description/OptionSelector'
+import { AddToCartButton } from './description/AddToCartButton'
 
-interface DescriptionPanelProps {
-  product: ProductDetail
-}
+export function DescriptionPanel({ product }: { product: ProductDetail }) {
+  const specs = buildSpecs(product)
 
-const specs = (product: ProductDetail) => [
-  { icon: Building2, label: 'Marca', value: product.brand },
-  { icon: Smartphone, label: 'Modelo', value: product.model },
-  { icon: Tag, label: 'Precio', value: product.price.replace(' EUR', '\u00a0€') },
-  { icon: Cpu, label: 'CPU', value: product.cpu },
-  { icon: MemoryStick, label: 'RAM', value: product.ram },
-  { icon: Smartphone, label: 'Sistema Operativo', value: product.os },
-  { icon: Monitor, label: 'Resolución', value: product.displayResolution },
-  { icon: Battery, label: 'Batería', value: product.battery },
-  { icon: Camera, label: 'Cámara principal', value: product.primaryCamera },
-  { icon: CameraOff, label: 'Cámara frontal', value: product.secondaryCamera },
-  { icon: Ruler, label: 'Dimensiones', value: product.dimensions },
-  { icon: Weight, label: 'Peso', value: product.weight },
-]
-
-export function DescriptionPanel({ product }: DescriptionPanelProps) {
-  const defaultStorage = product.storageOptions[0]?.code ?? null
-  const defaultColor = product.colorOptions[0]?.code ?? null
-
-  const [selectedStorage, setSelectedStorage] = useState<number | null>(defaultStorage)
-  const [selectedColor, setSelectedColor] = useState<number | null>(defaultColor)
+  const [selectedStorage, setSelectedStorage] = useState<number | null>(
+    product.storageOptions[0]?.code ?? null,
+  )
+  const [selectedColor, setSelectedColor] = useState<number | null>(
+    product.colorOptions[0]?.code ?? null,
+  )
 
   const { mutate, isPending, isError, reset } = useAddToCart()
-  const cartRef = useRef<CartIconHandle>(null)
-
   const canAdd = selectedStorage !== null && selectedColor !== null
 
   function handleAddToCart() {
-    if (selectedStorage === null || selectedColor === null) return
+    if (!canAdd) return
     reset()
     mutate(
       {
@@ -63,19 +34,18 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
           brand: product.brand,
           model: product.model,
           imgUrl: product.imgUrl,
-          storageLabel: product.storageOptions.find(o => o.code === selectedStorage)?.label ?? '',
-          colorLabel: product.colorOptions.find(o => o.code === selectedColor)?.label ?? '',
+          storageLabel: product.storageOptions.find((o) => o.code === selectedStorage)?.label ?? '',
+          colorLabel: product.colorOptions.find((o) => o.code === selectedColor)?.label ?? '',
         },
       },
       {
         onSuccess: () => toast.success('Producto añadido al carrito'),
         onError: () => toast.error('No se pudo añadir al carrito'),
-      }
+      },
     )
   }
 
-  const allRows = specs(product).length + (product.storageOptions.length > 0 ? 1 : 0) + (product.colorOptions.length > 0 ? 1 : 0)
-  let rowIndex = specs(product).length
+  let rowIndex = specs.length
 
   return (
     <div className="overflow-hidden rounded-lg border border-white/20 bg-[#1e293b]">
@@ -84,75 +54,30 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
       </div>
 
       <dl>
-        {specs(product).map(({ icon: Icon, label, value }, i) => (
-          <div
-            key={label}
-            className={`flex items-center gap-3 px-5 py-3 ${i % 2 === 0 ? 'bg-[#1e293b]' : 'bg-[#172033]'}`}
-          >
-            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#845ec2]/30">
-              <Icon className="h-3.5 w-3.5 text-[#845ec2]" />
-            </div>
-            <dt className="w-36 shrink-0 text-xs text-gray-300">{label}</dt>
-            <dd className="text-xs font-medium text-white">{value}</dd>
-          </div>
+        {specs.map((spec, i) => (
+          <SpecRow key={spec.label} spec={spec} index={i} />
         ))}
 
-        {/* Separador Opciones */}
         <div className="border-t border-white/15 px-5 py-4">
           <p className="text-sm font-semibold text-white">Acciones</p>
         </div>
 
-        {product.storageOptions.length > 0 && (
-          <div className={` border-t border-white/15 flex items-start gap-3 px-5 py-3 ${rowIndex++ % 2 === 0 ? 'bg-[#1e293b]' : 'bg-[#172033]'}`}>
-            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#845ec2]/30">
-              <HardDrive className="h-3.5 w-3.5 text-[#845ec2]" />
-            </div>
-            <dt className="w-36 shrink-0 pt-1 text-xs text-gray-300">Almacenamiento</dt>
-            <dd className="flex flex-wrap gap-1.5">
-              {product.storageOptions.map((opt) => (
-                <button
-                  key={opt.code}
-                  type="button"
-                  onClick={() => setSelectedStorage(opt.code)}
-                  aria-pressed={selectedStorage === opt.code}
-                  className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-all ${
-                    selectedStorage === opt.code
-                      ? 'border-[#845ec2] bg-[#845ec2] text-white'
-                      : 'border-white/20 bg-white/10 text-gray-300 hover:bg-white/20'
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </dd>
-          </div>
-        )}
-
-        {product.colorOptions.length > 0 && (
-          <div className={`flex items-start gap-3 px-5 py-3 ${rowIndex++ % 2 === 0 ? 'bg-[#1e293b]' : 'bg-[#172033]'}`}>
-            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#845ec2]/30">
-              <Palette className="h-3.5 w-3.5 text-[#845ec2]" />
-            </div>
-            <dt className="w-36 shrink-0 pt-1 text-xs text-gray-300">Color</dt>
-            <dd className="flex flex-wrap gap-1.5">
-              {product.colorOptions.map((opt) => (
-                <button
-                  key={opt.code}
-                  type="button"
-                  onClick={() => setSelectedColor(opt.code)}
-                  aria-pressed={selectedColor === opt.code}
-                  className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-all ${
-                    selectedColor === opt.code
-                      ? 'border-[#845ec2] bg-[#845ec2] text-white'
-                      : 'border-white/20 bg-white/10 text-gray-300 hover:bg-white/20'
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </dd>
-          </div>
-        )}
+        <OptionSelector
+          icon={HardDrive}
+          label="Almacenamiento"
+          options={product.storageOptions}
+          selected={selectedStorage}
+          onSelect={setSelectedStorage}
+          index={rowIndex++}
+        />
+        <OptionSelector
+          icon={Palette}
+          label="Color"
+          options={product.colorOptions}
+          selected={selectedColor}
+          onSelect={setSelectedColor}
+          index={rowIndex++}
+        />
       </dl>
 
       {isError && (
@@ -164,20 +89,11 @@ export function DescriptionPanel({ product }: DescriptionPanelProps) {
         </p>
       )}
 
-      <div className="px-5 py-4">
-        <button
-          type="button"
-          onClick={handleAddToCart}
-          disabled={!canAdd || isPending}
-          onMouseEnter={() => cartRef.current?.startAnimation()}
-          onMouseLeave={() => cartRef.current?.stopAnimation()}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#845ec2] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#6b4a9e] disabled:cursor-not-allowed disabled:opacity-50"
-          style={{ display: allRows > 0 ? 'flex' : 'none' }}
-        >
-          <CartIcon ref={cartRef} size={24} aria-hidden="true" />
-          {isPending ? 'Añadiendo...' : 'Añadir al carrito'}
-        </button>
-      </div>
+      <AddToCartButton
+        disabled={!canAdd || isPending}
+        loading={isPending}
+        onClick={handleAddToCart}
+      />
     </div>
   )
 }

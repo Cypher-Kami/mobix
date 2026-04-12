@@ -1,14 +1,13 @@
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
-
-const PLPPage = lazy(() => import('@/pages/PLPPage'))
-const PDPPage = lazy(() => import('@/pages/PDPPage'))
+import { PageFallback } from '@/shared/components/PageFallback'
+import { PLPPage, PDPPage } from './lazyPages'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <Suspense>
+      <Suspense fallback={<PageFallback />}>
         <PLPPage />
       </Suspense>
     ),
@@ -16,7 +15,7 @@ export const router = createBrowserRouter([
   {
     path: '/product/:id',
     element: (
-      <Suspense>
+      <Suspense fallback={<PageFallback />}>
         <PDPPage />
       </Suspense>
     ),

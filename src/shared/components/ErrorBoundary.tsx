@@ -23,13 +23,17 @@ export class ErrorBoundary extends Component<Props, State> {
     console.error('ErrorBoundary caught:', error, info.componentStack)
   }
 
+  private handleRetry = () => {
+    this.setState({ hasError: false })
+  }
+
   render() {
     if (this.state.hasError) {
       return (
         <div className="min-h-screen flex items-center justify-center">
           <ErrorState
-            message="Algo salió mal. Recarga la página para continuar."
-            onRetry={() => window.location.reload()}
+            message="Algo salió mal. Pulsa reintentar para continuar."
+            onRetry={this.handleRetry}
           />
         </div>
       )

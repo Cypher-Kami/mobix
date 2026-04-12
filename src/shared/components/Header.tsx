@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 export function Header({ breadcrumbItems }: HeaderProps) {
-  const count = useCartStore((s) => s.count)
+  const count = useCartStore((s) => s.items.length)
   const wrenchRef = useRef<WrenchIconHandle>(null)
 
   useEffect(() => {

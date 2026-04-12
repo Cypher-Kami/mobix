@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ProductImage } from './ProductImage'
+import { formatPrice } from '@/features/products/api/productApi'
 import type { ProductItem } from '@/features/products/api/productTypes'
 
 interface ProductCardProps {
@@ -57,7 +58,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.model}
         </p>
         <span className="shrink-0 text-sm font-semibold">
-          {product.price.replace(' EUR', '\u00a0€')}
+          {formatPrice(product.price)}
         </span>
       </div>
     </div>

@@ -64,19 +64,13 @@ La caché usa `staleTime: 1h` en TanStack Query combinado con `createSyncStorage
 - GET requests: hasta 3 reintentos con backoff exponencial (1s → 2s → 4s). No reintenta errores 4xx
 - POST /api/cart: sin auto-retry. Error explícito con botón de reintento manual, sin resetear la selección del usuario
 
+## Configuración de ESLint
+
+El directorio `src/components/ui/**` está excluido de las reglas de ESLint de forma intencionada. Estos componentes son generados automáticamente por [shadcn/ui](https://ui.shadcn.com/) y se tratan como código externo: siguen las convenciones y el estilo del propio generador, no del proyecto. Lintearlos introduciría ruido innecesario (falsos positivos, reglas incompatibles con el output de shadcn) sin aportar valor real, ya que no es código que se escriba ni se mantenga manualmente. Si en algún momento se personalizan de forma significativa, se pueden reincorporar al scope de linting eliminando la entrada correspondiente en `eslint.config.js`.
+
 ## Trade-offs
 
 - Sin paginación: el dataset es pequeño y la API no lo requiere
 - Sin SSR: el enunciado requiere SPA explícitamente
 - Caché en cliente: cubre el caso de uso sin necesidad de optimizar payloads server-side
 - Selectores como chip buttons (no `<select>` nativo): mejor UX y más alineado con patrones de e-commerce modernos
-
-## Lo que haría con más tiempo
-
-- E2E tests con Playwright (flujos completos de compra)
-- Lista virtualizada para catálogos grandes
-- Optimistic UI en el carrito
-- Animaciones de transición entre páginas con View Transitions API
-- PWA con service worker para uso offline
-
-Estas mejoras acercarían la aplicación a un sistema listo para producción, con mayor escalabilidad, resiliencia y calidad de experiencia de usuario.

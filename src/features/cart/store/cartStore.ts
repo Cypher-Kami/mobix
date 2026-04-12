@@ -11,7 +11,6 @@ interface CartItem {
 }
 
 interface CartState {
-  count: number
   items: CartItem[]
   addItem: (item: CartItem) => void
 }
@@ -20,10 +19,9 @@ export type { CartItem }
 
 export const useCartStore = create<CartState>()(
   persist(
-    (set, get) => ({
-      count: 0,
+    (set) => ({
       items: [],
-      addItem: (item) => set({ count: get().count + 1, items: [...get().items, item] }),
+      addItem: (item) => set((state) => ({ items: [...state.items, item] })),
     }),
     {
       name: 'mobix-cart',

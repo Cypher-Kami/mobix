@@ -25,6 +25,10 @@ function normalizePrice(value: string[] | string | null | undefined): string {
   return `${raw.trim()} EUR`
 }
 
+export function formatPrice(price: string): string {
+  return price.replace(' EUR', '\u00a0€')
+}
+
 function normalizeImg(value: string[] | string | null | undefined): string {
   const raw = Array.isArray(value) ? value[0] : value
   return raw?.trim() || FALLBACK_IMG
@@ -88,7 +92,7 @@ export async function fetchProducts(): Promise<ProductItem[]> {
 }
 
 export async function fetchProductDetail(id: string): Promise<ProductDetail> {
-  const dto = await apiFetch<ProductDetailDTO>(`/api/product/${id}`)
+  const dto = await apiFetch<ProductDetailDTO>(`/api/product/${encodeURIComponent(id)}`)
   return transformProductDetailDTO(dto)
 }
 
