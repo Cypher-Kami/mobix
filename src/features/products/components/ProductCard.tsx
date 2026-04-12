@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { Smartphone, Tag } from 'lucide-react'
 import { ProductImage } from './ProductImage'
 import { formatPrice } from '@/features/products/api/productApi'
 import type { ProductItem } from '@/features/products/api/productTypes'
@@ -54,10 +55,12 @@ export function ProductCard({ product }: ProductCardProps) {
       </span>
 
       <div className="flex items-center justify-between gap-2">
-        <p className="text-sm font-medium line-clamp-1">
+        <p className="flex items-center gap-1 text-sm font-medium line-clamp-1">
+          <Smartphone className="h-3.5 w-3.5 shrink-0 text-[#845ec2]" />
           {product.model}
         </p>
-        <span className="shrink-0 text-sm font-semibold">
+        <span className="flex items-center gap-1 shrink-0 text-sm font-semibold">
+          <Tag className="h-3.5 w-3.5 text-[#845ec2]" />
           {formatPrice(product.price)}
         </span>
       </div>
