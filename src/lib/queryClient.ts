@@ -15,7 +15,8 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: ONE_HOUR_MS,
-      gcTime: ONE_HOUR_MS,
+      gcTime: ONE_HOUR_MS * 2,
+      refetchOnMount: 'always',
       retry: (failureCount, error) => {
         if (error instanceof ApiError && error.status < 500) return false
         return failureCount < 3

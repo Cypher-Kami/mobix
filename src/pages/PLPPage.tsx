@@ -7,9 +7,10 @@ import { SearchInput } from '@/features/products/components/SearchInput'
 import { ProductGrid } from '@/features/products/components/ProductGrid'
 
 export default function PLPPage() {
-  const { data, isLoading, isError, refetch } = useProducts()
+  const { data, isLoading, isError, refetch, isFetching } = useProducts()
   const [searchQuery, setSearchQuery] = useState('')
 
+  const showSkeleton = isLoading || (!data && isFetching)
   const filteredProducts = filterProducts(data ?? [], searchQuery)
 
   return (
@@ -27,7 +28,7 @@ export default function PLPPage() {
         </div>
         <ProductGrid
           products={filteredProducts}
-          isLoading={isLoading}
+          isLoading={showSkeleton}
           isError={isError}
           searchQuery={searchQuery}
           onRetry={() => void refetch()}

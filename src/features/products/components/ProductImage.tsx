@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface ProductImageProps {
   src: string
@@ -8,6 +8,12 @@ interface ProductImageProps {
 
 export function ProductImage({ src, alt, className }: ProductImageProps) {
   const [imgSrc, setImgSrc] = useState(src)
+  const [errored, setErrored] = useState(false)
+
+  useEffect(() => {
+    setImgSrc(src)
+    setErrored(false)
+  }, [src])
 
   return (
     <img
@@ -15,7 +21,12 @@ export function ProductImage({ src, alt, className }: ProductImageProps) {
       alt={alt}
       className={className}
       loading="lazy"
-      onError={() => setImgSrc('/placeholder.png')}
+      onError={() => {
+        if (!errored) {
+          setErrored(true)
+          setImgSrc('/placeholder.png')
+        }
+      }}
     />
   )
 }

@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')!).render(
         client={queryClient}
         persistOptions={{
           persister,
-          maxAge: ONE_HOUR_MS,
+          maxAge: ONE_HOUR_MS * 2,
           dehydrateOptions: {
             shouldDehydrateQuery: (query) => {
               return query.state.status === 'success'
